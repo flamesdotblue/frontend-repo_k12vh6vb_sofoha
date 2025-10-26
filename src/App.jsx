@@ -1,28 +1,33 @@
-import { useState } from 'react'
+import { useState } from 'react';
+import Navbar from './components/Navbar';
+import Sidebar from './components/Sidebar';
+import VideoGrid from './components/VideoGrid';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 flex items-center justify-center">
-      <div className="bg-white p-8 rounded-lg shadow-lg">
-        <h1 className="text-3xl font-bold text-gray-800 mb-4">
-          Vibe Coding Platform
-        </h1>
-        <p className="text-gray-600 mb-6">
-          Your AI-powered development environment
-        </p>
-        <div className="text-center">
-          <button
-            onClick={() => setCount(count + 1)}
-            className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded"
-          >
-            Count is {count}
-          </button>
-        </div>
+    <div className="min-h-screen bg-white text-gray-900">
+      <Navbar onMenuToggle={() => setSidebarOpen((s) => !s)} />
+
+      <div className="mx-auto max-w-7xl grid grid-cols-1 md:grid-cols-[16rem_1fr] gap-0">
+        <Sidebar open={sidebarOpen} />
+
+        <main className="md:min-h-[calc(100vh-4rem)]">
+          <VideoGrid />
+        </main>
       </div>
+
+      {/* Mobile overlay when sidebar is open */}
+      {sidebarOpen && (
+        <button
+          aria-label="Close menu"
+          onClick={() => setSidebarOpen(false)}
+          className="fixed inset-0 z-20 bg-black/30 md:hidden"
+        />
+      )}
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
